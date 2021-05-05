@@ -50,7 +50,9 @@ public class database {
 //
 //            addAgent(statement,123,1,"pk");
 //            addAgent(statement,124,3,"sk");
-            addPolicy(statement,1,12345);
+//            addPolicy(statement,1,12345);
+            addPolicy(statement,3,204);
+            addPolicy(statement,3,205);
 //            statement.execute("select * from "+tableBranch+
 //                    " left join "+tableAgent+
 //                    "on Branch.BranchCode = Agents.BranchCode");//+tableBranch+"."+columnBranchCode+"="+tableAgent+"."+columnBranchCode);
