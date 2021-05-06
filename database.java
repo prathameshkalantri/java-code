@@ -3,7 +3,9 @@ package com.company;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class database {
     public static final String dbName = "lic";
@@ -51,24 +53,27 @@ public class database {
 //            addAgent(statement,123,1,"pk");
 //            addAgent(statement,124,3,"sk");
 //            addPolicy(statement,1,12345);
-            addPolicy(statement,3,204);
-            addPolicy(statement,3,205);
+//            addPolicy(statement,2,206);
+//            addPolicy(statement,3,207);
 //            statement.execute("select * from "+tableBranch+
 //                    " left join "+tableAgent+
 //                    "on Branch.BranchCode = Agents.BranchCode");//+tableBranch+"."+columnBranchCode+"="+tableAgent+"."+columnBranchCode);
 //            statement.execute("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
 //                    " values (12345,1)");
-
-            ResultSet result = statement.executeQuery("select * from "+tableBranch+
-                    " left join "+tableAgent+
-                    " on Branch.BranchCode = Agents.BranchCode");
+            getBranch(statement);
+            getAgent(statement);
+            getPolicies(statement);
+            agentsPolicies(statement,1);
+//            ResultSet result = statement.executeQuery("select * from "+tableBranch+
+//                    " left join "+tableAgent+
+//                    " on Branch.BranchCode = Agents.BranchCode");
 //            ResultSet result  = statement.executeQuery("select * from "+tableBranch);
-            while(result.next()){
-                System.out.println(result.getInt(columnBranchCode)+" "+
-                        result.getString(columnBranchName)+" "+
-                        result.getInt(columnAgentsCode)+" "+
-                        result.getString(columnAgentName));
-            }
+//            while(result.next()){
+//                System.out.println(result.getInt(columnBranchCode)+" "+
+//                        result.getString(columnBranchName)+" "+
+//                        result.getInt(columnAgentsCode)+" "+
+//                        result.getString(columnAgentName));
+//            }
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -90,6 +95,54 @@ public class database {
     public void addPolicy(Statement statement, int AgentCode, int PolicyNo) throws SQLException{
         statement.execute("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
                 " values ("+PolicyNo+","+AgentCode+")");
+    }
+    public void getBranch(Statement statement) throws  SQLException{
+        ResultSet result = statement.executeQuery("select * from "+tableBranch);
+        while(result.next()){
+            System.out.println(result.getInt(columnBranchCode)+" "+
+                    result.getString(columnBranchName));
+//                    result.getInt(columnAgentsCode)+" "+
+//                    result.getString(columnAgentName));
+        }
+    }
+    public void getAgent(Statement statement) throws  SQLException{
+        ResultSet result = statement.executeQuery("select * from "+tableAgent);
+        while(result.next()){
+            System.out.println(result.getInt(columnBranchCode)+" "+
+//                    result.getString(columnBranchName));
+                    result.getInt(columnAgentsCode)+" "+
+                    result.getString(columnAgentName));
+        }
+    }
+    public void getPolicies(Statement statement) throws SQLException {
+        ResultSet result = statement.executeQuery("select * from " + tablePolicy);
+        List<String> totalPolicies = new ArrayList<>();
+        totalPolicies.add(columnPolicyNo);
+//        System.out.println(totalPolicies);
+        while (result.next()) {
+            System.out.println(result.getInt(columnAgentsCode)+" " +
+                    result.getInt(columnPolicyNo));
+        //
+        }
+    }
+    public void agentsPolicies(Statement statement, int AgentCode) throws SQLException{
+
+        ResultSet result = statement.executeQuery("select "+ tableBranch+"."+columnBranchCode+","+
+                tableBranch+"."+columnBranchName+"," +
+                tableAgent+"."+columnAgentsCode+","+tableAgent+"."+columnAgentName+"," +
+                "count("+columnPolicyNo+") as totalPolicies " +
+                "from (("+tableAgent+
+                " left join "+tableBranch+" on "+tableBranch+"."+columnBranchCode+"="+tableAgent+"."+ columnBranchCode+")"+
+                " left join "+tablePolicy+" on "+tableAgent+"."+columnAgentsCode+"="+ tablePolicy+"."+columnAgentsCode+")"+
+                "group by AgentCode");
+        while (result.next()){
+            System.out.println(result.getInt(columnBranchCode)+" "+
+                    result.getString(columnBranchName)+" "+
+                    result.getInt(columnAgentsCode)+" "+
+                    result.getString(columnAgentName)+" "+
+                    result.getInt("totalPolicies"));
+        }
+
     }
 }
 
