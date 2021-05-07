@@ -25,12 +25,15 @@ public class database {
 
     public static final String tablePolicy = "Policies";
     public static final String columnPolicyNo = "PolicyNo";
-
+    Connection con = null;
     public boolean open() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(connectionString, hostName, password);
+            con = DriverManager.getConnection(connectionString, hostName, password);
+
             Statement statement = con.createStatement();
+
+
 //            statement.execute("create table if not exists "+tableBranch+
 //                    "("+columnBranchCode+" int,"+
 //                    columnBranchName +" text,primary key("+columnBranchCode+"))");
@@ -60,10 +63,12 @@ public class database {
 //                    "on Branch.BranchCode = Agents.BranchCode");//+tableBranch+"."+columnBranchCode+"="+tableAgent+"."+columnBranchCode);
 //            statement.execute("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
 //                    " values (12345,1)");
-            getBranch(statement);
-            getAgent(statement);
-            getPolicies(statement);
-            agentsPolicies(statement,1);
+            for(int i=0; i<10; i++) {
+                getBranch(statement);
+                getAgent(statement);
+                getPolicies(statement);
+                agentsPolicies(statement, 1);
+            }
 //            ResultSet result = statement.executeQuery("select * from "+tableBranch+
 //                    " left join "+tableAgent+
 //                    " on Branch.BranchCode = Agents.BranchCode");
@@ -74,12 +79,27 @@ public class database {
 //                        result.getInt(columnAgentsCode)+" "+
 //                        result.getString(columnAgentName));
 //            }
+            con.close();
+            statement.close();
+            if (con.isClosed()){
+    System.out.println("con closed");
+}
+            if (statement.isClosed()){
+                System.out.println("statement closed");
+            }
             return true;
+//            statement.close();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println(e.getStackTrace());
             return false;
         }
+//        finally {
+////            try { rs.close(); } catch (Exception e) { /* Ignored */ }
+////            try { ps.close(); } catch (Exception e) { /* Ignored */ }
+//            try { con.close(); } catch (Exception e) { /* Ignored */ }
+//        }
     }
     public void addBranch(Statement statement, HashMap<String,Object> BranchName) throws SQLException {
         statement.execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
@@ -134,7 +154,7 @@ public class database {
                 "from (("+tableAgent+
                 " left join "+tableBranch+" on "+tableBranch+"."+columnBranchCode+"="+tableAgent+"."+ columnBranchCode+")"+
                 " left join "+tablePolicy+" on "+tableAgent+"."+columnAgentsCode+"="+ tablePolicy+"."+columnAgentsCode+")"+
-                "group by AgentCode");
+                " where "+tableAgent+"."+columnAgentsCode+"="+AgentCode+" group by AgentCode");
         while (result.next()){
             System.out.println(result.getInt(columnBranchCode)+" "+
                     result.getString(columnBranchName)+" "+
