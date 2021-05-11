@@ -10,18 +10,29 @@ public class branch {
     public static final String columnBranchCode = "BranchCode";
     public static final String columnBranchName = "BranchName";
 
-    public void addBranch(Statement statement, HashMap<String,Object> BranchName) throws SQLException {
-        statement.execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
-                "values (" + BranchName.get("branchCode") + ",'" + BranchName.get("branchName") + "')");
+
+    public void addBranch(HashMap<String,Object> BranchInfo) throws SQLException  {
+
+            database databaseInstance = database.getInstance();
+            databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
+                    "values (" + BranchInfo.get("branchCode") + ",'" + BranchInfo.get("branchName") + "')");
     }
-    public static void getBranch(Statement statement) throws  SQLException{
-        ResultSet result = statement.executeQuery("select * from "+tableBranch);
+
+    public void getBranch() throws  SQLException{
+        database databaseInstance = database.getInstance();
+        ResultSet result = databaseInstance.getStatement().executeQuery("select * from "+tableBranch);
         while(result.next()){
             System.out.println(result.getInt(columnBranchCode)+" "+
                     result.getString(columnBranchName));
 //                    result.getInt(columnAgentsCode)+" "+
 //                    result.getString(columnAgentName));
         }
+    }
+    public void removeBranch(int branchCode) throws SQLException {
+        database databaseInstance = database.getInstance();
+        databaseInstance.getStatement().executeQuery("delete from "+tableBranch+
+                " where "+columnBranchCode +"="+branchCode);
+        System.out.println("Branch Removed");
     }
 
 

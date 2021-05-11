@@ -1,11 +1,12 @@
 package com.company;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class operation1 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 //        lic1 lic1Object = new lic1();
 //        LinkedHashMap<String,Object> saral = new LinkedHashMap<>();
 //        saral.put("PolicyName", "jeevan Saral");
@@ -167,7 +168,33 @@ public class operation1 {
 //        // lic1Object.AddPolicy(124, "saurabh", saral);
 //        System.out.println(lic1Object.fullList());
 //
-        database database = new database();
+        database obj = database.getInstance();
+        branch branch = new branch();
+        policies policy = new policies();
+        agent agent = new agent();
+        agent.getAgent();
+        policy.getPolicies();
+        agent.agentsPolicies(1);
+
+        HashMap<String, Object> jalgaon = new HashMap<String, Object>();
+
+        HashMap<String, Object> jalgaon1 = new HashMap<String, Object>();
+        jalgaon.put("branchName", "Jalgaon1");
+        jalgaon.put("branchCode", 12345);
+        HashMap<String, Object> jalgaon2 = new HashMap<String, Object>();
+        jalgaon.put("branchName", "Jalgaon2");
+        jalgaon.put("branchCode", 1256);
+        jalgaon2.put("branchName", "Jalgaon");
+        jalgaon2.put("branchCode", 1235);
+//        branch.getBranch();
+
+//        branch.addBranch(jalgaon1);
+//        branch.addBranch(jalgaon);
+//        branch.addBranch(jalgaon2);
+
+
+//        branch.getBranch(statement);
+
 //        branch.getBranch(statement);
 //        database database1 = new database();
 //        database database2 = new database();
@@ -179,10 +206,10 @@ public class operation1 {
 //        database3.open();
 //        database4.open();
 //        database.addBranch(Nashik);
-        if(!database.open()){
-            System.out.println("can't open datasource");
-            return;
-        }
+//        if(!obj.open()){
+//            System.out.println("can't open datasource");
+//            return;
+//        }
 
 
     }

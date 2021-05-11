@@ -12,13 +12,15 @@ private static String tableAgent = "Agents";
     private static String columnPolicies = "Policies";
     private static String columnBranchCode = "BranchCode";
 
-    public static void addAgent(Statement statement, int BranchCode, int agentCode, String agentName) throws SQLException {
-        statement.execute("insert into "+ tableAgent + "("+ columnBranchCode +","+
+    public void addAgent( int BranchCode, int agentCode, String agentName) throws SQLException {
+        database databaseInstance1 = database.getInstance();
+        databaseInstance1.getStatement().execute("insert into "+ tableAgent + "("+ columnBranchCode +","+
                 columnAgentsCode +","+columnAgentName+")"+
                 "values ("+BranchCode+","+agentCode+",'"+agentName+"')");
     }
-    public static void getAgent(Statement statement) throws  SQLException{
-        ResultSet result = statement.executeQuery("select * from "+tableAgent);
+    public void getAgent() throws  SQLException{
+        database databaseInstance1 = database.getInstance();
+        ResultSet result = databaseInstance1.getStatement().executeQuery("select * from "+tableAgent);
         while(result.next()){
             System.out.println(result.getInt(columnBranchCode)+" "+
 //                    result.getString(columnBranchName));
@@ -26,6 +28,29 @@ private static String tableAgent = "Agents";
                     result.getString(columnAgentName));
         }
     }
+    public void agentsPolicies(int AgentCode) throws SQLException{
+        database databaseInstance = database.getInstance();
+        ResultSet result = databaseInstance.getStatement().executeQuery("select "+ branch.tableBranch+"."+columnBranchCode+","+
+                branch.tableBranch+"."+branch.columnBranchName+"," +
+                tableAgent+"."+columnAgentsCode+","+tableAgent+"."+columnAgentName+"," +
+                "count("+policies.columnPolicyNo+") as totalPolicies " +
+                "from (("+tableAgent+
+                " left join "+branch.tableBranch+" on "+branch.tableBranch+"."+columnBranchCode+"="+tableAgent+"."+ columnBranchCode+")"+
+                " left join "+policies.tablePolicy+" on "+tableAgent+"."+columnAgentsCode+"="+ policies.tablePolicy+"."+columnAgentsCode+")"+
+                " where "+tableAgent+"."+columnAgentsCode+"="+AgentCode+" group by AgentCode");
+        while (result.next()){
+            System.out.println(result.getInt(columnBranchCode)+" "+
+                    result.getString(branch.columnBranchName)+" "+
+                    result.getInt(columnAgentsCode)+" "+
+                    result.getString(columnAgentName)+" "+
+                    result.getInt("totalPolicies"));
+        }
 
+    }
+    public void removeAgent(int agentCode) throws SQLException{
+        database databaseInstance = database.getInstance();
+        databaseInstance.getStatement().executeQuery("delete from "+tableAgent+
+                " where "+columnAgentsCode+"="+agentCode);
+    }
 
 }

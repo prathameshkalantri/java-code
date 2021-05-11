@@ -7,16 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class policies {
-    private static String tablePolicy = "Policies";
-    private static String columnPolicyNo = "PolicyNo";
-    private static String columnAgentsCode = "AgentCode";
+    public static String tablePolicy = "Policies";
+     public static String columnPolicyNo = "PolicyNo";
+    public static String columnAgentsCode = "AgentCode";
 
     public static void addPolicy(Statement statement, int AgentCode, int PolicyNo) throws SQLException {
-        statement.execute("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
+        database databaseInstance = database.getInstance();
+
+        databaseInstance.getStatement().execute("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
                 " values ("+PolicyNo+","+AgentCode+")");
     }
-    public static void getPolicies(Statement statement) throws SQLException {
-        ResultSet result = statement.executeQuery("select * from " + tablePolicy);
+    public static void getPolicies() throws SQLException {
+        database databaseInstance = database.getInstance();
+
+        ResultSet result = databaseInstance.getStatement().executeQuery("select * from " + tablePolicy);
         List<String> totalPolicies = new ArrayList<>();
         totalPolicies.add(columnPolicyNo);
 //        System.out.println(totalPolicies);
