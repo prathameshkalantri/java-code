@@ -11,18 +11,18 @@ public class policies {
      public static String columnPolicyNo = "PolicyNo";
     public static String columnAgentsCode = "AgentCode";
 
-    public static void addPolicy(Statement statement, int AgentCode, int PolicyNo) throws SQLException {
+    public static void addPolicy(int AgentCode, int PolicyNo) throws SQLException {
         database databaseInstance = database.getInstance();
 
-        databaseInstance.getStatement().execute("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
+        databaseInstance.getStatement().executeUpdate("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
                 " values ("+PolicyNo+","+AgentCode+")");
     }
     public static void getPolicies() throws SQLException {
         database databaseInstance = database.getInstance();
 
         ResultSet result = databaseInstance.getStatement().executeQuery("select * from " + tablePolicy);
-        List<String> totalPolicies = new ArrayList<>();
-        totalPolicies.add(columnPolicyNo);
+//        List<String> totalPolicies = new ArrayList<>();
+//        totalPolicies.add(columnPolicyNo);
 //        System.out.println(totalPolicies);
         while (result.next()) {
             System.out.println(result.getInt(columnAgentsCode)+" " +

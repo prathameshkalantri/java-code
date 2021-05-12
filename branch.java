@@ -9,31 +9,44 @@ public class branch {
     public static final String tableBranch = "Branch";
     public static final String columnBranchCode = "BranchCode";
     public static final String columnBranchName = "BranchName";
+    database databaseInstance = database.getInstance();
 
+    public void addBranch(HashMap<String, Object> BranchInfo) throws SQLException {
 
-    public void addBranch(HashMap<String,Object> BranchInfo) throws SQLException  {
-
-            database databaseInstance = database.getInstance();
-            databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
-                    "values (" + BranchInfo.get("branchCode") + ",'" + BranchInfo.get("branchName") + "')");
+//            database databaseInstance = database.getInstance();
+        databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
+                "values (" + BranchInfo.get("branchCode") + ",'" + BranchInfo.get("branchName") + "')");
     }
 
-    public void getBranch() throws  SQLException{
-        database databaseInstance = database.getInstance();
-        ResultSet result = databaseInstance.getStatement().executeQuery("select * from "+tableBranch);
-        while(result.next()){
-            System.out.println(result.getInt(columnBranchCode)+" "+
+    public void getBranch() throws SQLException {
+//        database databaseInstance = database.getInstance();
+        ResultSet result = databaseInstance.getStatement().executeQuery("select * from " + tableBranch);
+        while (result.next()) {
+            System.out.println(result.getInt(columnBranchCode) + " " +
                     result.getString(columnBranchName));
 //                    result.getInt(columnAgentsCode)+" "+
 //                    result.getString(columnAgentName));
         }
     }
+
     public void removeBranch(int branchCode) throws SQLException {
-        database databaseInstance = database.getInstance();
-        databaseInstance.getStatement().executeQuery("delete from "+tableBranch+
-                " where "+columnBranchCode +"="+branchCode);
-        System.out.println("Branch Removed");
+
+        ResultSet BranchCode = databaseInstance.getStatement().executeQuery("exists(select " + columnBranchCode + " from " +
+                tableBranch + " where " + columnBranchCode + "=" + branchCode);
+//        System.out.println(BranchCode);
+            while (BranchCode.next()) {
+                if((BranchCode.getInt(columnBranchCode)) == 1){
+                    ResultSet result = databaseInstance.getStatement().executeQuery("select " + columnBranchName + " from " + tableBranch +
+                            " where " + columnBranchCode + "=" + branchCode);
+                    while (result.next()) {
+                        System.out.println(result.getString(columnBranchName) + " branch removed");
+                    }
+                    databaseInstance.getStatement().executeUpdate("delete from " + tableBranch +
+                            " where " + columnBranchCode + "=" + branchCode);
+
+                }else{
+                    System.out.println("Branch not found");
+                }
+            }
+        }
     }
-
-
-}

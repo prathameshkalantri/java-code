@@ -187,8 +187,10 @@ public class operation1 {
         jalgaon2.put("branchName", "Jalgaon");
         jalgaon2.put("branchCode", 1235);
 //        branch.getBranch();
+//        branch.addBranch(jalgaon);
+        branch.removeBranch(1256);
+        branch.getBranch();
 
-//        branch.addBranch(jalgaon1);
 //        branch.addBranch(jalgaon);
 //        branch.addBranch(jalgaon2);
 
