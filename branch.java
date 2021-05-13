@@ -31,22 +31,21 @@ public class branch {
 
     public void removeBranch(int branchCode) throws SQLException {
 
-        ResultSet BranchCode = databaseInstance.getStatement().executeQuery("exists(select " + columnBranchCode + " from " +
+        databaseInstance.getStatement().executeQuery("select " + columnBranchCode + " from " +
                 tableBranch + " where " + columnBranchCode + "=" + branchCode);
 //        System.out.println(BranchCode);
-            while (BranchCode.next()) {
-                if((BranchCode.getInt(columnBranchCode)) == 1){
-                    ResultSet result = databaseInstance.getStatement().executeQuery("select " + columnBranchName + " from " + tableBranch +
-                            " where " + columnBranchCode + "=" + branchCode);
-                    while (result.next()) {
-                        System.out.println(result.getString(columnBranchName) + " branch removed");
-                    }
-                    databaseInstance.getStatement().executeUpdate("delete from " + tableBranch +
-                            " where " + columnBranchCode + "=" + branchCode);
-
-                }else{
-                    System.out.println("Branch not found");
-                }
+//            while (BranchCode.next()) {
+        if (columnBranchCode.isEmpty()) {
+            System.out.println("Branch not found");
+        }else{
+            ResultSet result = databaseInstance.getStatement().executeQuery("select " + columnBranchName + " from " + tableBranch +
+                    " where " + columnBranchCode + "=" + branchCode);
+            while (result.next()) {
+                System.out.println(result.getString(columnBranchName) + " branch removed");
             }
+            databaseInstance.getStatement().executeUpdate("delete from " + tableBranch +
+                    " where " + columnBranchCode + "=" + branchCode);
         }
+
     }
+}

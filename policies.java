@@ -10,15 +10,16 @@ public class policies {
     public static String tablePolicy = "Policies";
      public static String columnPolicyNo = "PolicyNo";
     public static String columnAgentsCode = "AgentCode";
+    database databaseInstance = database.getInstance();
 
-    public static void addPolicy(int AgentCode, int PolicyNo) throws SQLException {
-        database databaseInstance = database.getInstance();
+    public void addPolicy(int AgentCode, int PolicyNo) throws SQLException {
+//        database databaseInstance = database.getInstance();
 
         databaseInstance.getStatement().executeUpdate("insert into "+ tablePolicy +"("+columnPolicyNo+","+columnAgentsCode+")" +
                 " values ("+PolicyNo+","+AgentCode+")");
     }
-    public static void getPolicies() throws SQLException {
-        database databaseInstance = database.getInstance();
+    public void getPolicies() throws SQLException {
+//        database databaseInstance = database.getInstance();
 
         ResultSet result = databaseInstance.getStatement().executeQuery("select * from " + tablePolicy);
 //        List<String> totalPolicies = new ArrayList<>();
@@ -30,4 +31,9 @@ public class policies {
             //
         }
     }
+    public void removePolicy(int policyNo) throws SQLException{
+        databaseInstance.getStatement().executeQuery("delete from "+tablePolicy+
+                " where "+columnAgentsCode+"="+policyNo);
+    }
+
 }

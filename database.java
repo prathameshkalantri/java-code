@@ -25,11 +25,12 @@ public class database {
         this.connection = this.getConnection();
     }
 
-    private static Connection getConnection() {
+    private Connection getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(connectionString, hostName, password);
             return con;
+
         } catch (Exception e) {
             System.out.println(e);
             return null;
