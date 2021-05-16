@@ -1,16 +1,17 @@
-package com.company;
+package lic;
+
+import com.company.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-public class agent {
-private static String tableAgent = "Agents";
+public class agent extends branch {
+    private static String tableAgent = "Agents";
     //    public static final String  columnBranchCode = "BranchCode";
-    private static String columnAgentsCode = "AgentCode";
-    private static String columnAgentName = "AgentName";
-    private static String columnPolicies = "Policies";
-    private static String columnBranchCode = "BranchCode";
+    public static String columnAgentsCode = "AgentCode";
+    public static String columnAgentName = "AgentName";
+    public static String columnPolicies = "Policies";
+    public static String columnBranchCode = "BranchCode";
 
     public void addAgent( int BranchCode, int agentCode, String agentName) throws SQLException {
         database databaseInstance1 = database.getInstance();
@@ -30,12 +31,12 @@ private static String tableAgent = "Agents";
     }
     public void agentsPolicies(int AgentCode) throws SQLException{
         database databaseInstance = database.getInstance();
-        ResultSet result = databaseInstance.getStatement().executeQuery("select "+ branch.tableBranch+"."+columnBranchCode+","+
-                branch.tableBranch+"."+branch.columnBranchName+"," +
+        ResultSet result = databaseInstance.getStatement().executeQuery("select "+ tableBranch+"."+columnBranchCode+","+
+                tableBranch+"."+columnBranchName+"," +
                 tableAgent+"."+columnAgentsCode+","+tableAgent+"."+columnAgentName+"," +
-                "count("+policies.columnPolicyNo+") as totalPolicies " +
+                "count("+ policies.columnPolicyNo+") as totalPolicies " +
                 "from (("+tableAgent+
-                " left join "+branch.tableBranch+" on "+branch.tableBranch+"."+columnBranchCode+"="+tableAgent+"."+ columnBranchCode+")"+
+                " left join "+tableBranch+" on "+tableBranch+"."+columnBranchCode+"="+tableAgent+"."+ columnBranchCode+")"+
                 " left join "+policies.tablePolicy+" on "+tableAgent+"."+columnAgentsCode+"="+ policies.tablePolicy+"."+columnAgentsCode+")"+
                 " where "+tableAgent+"."+columnAgentsCode+"="+AgentCode+" group by AgentCode");
         while (result.next()){

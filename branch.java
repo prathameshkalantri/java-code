@@ -1,8 +1,10 @@
-package com.company;
+package lic;
+
+import com.company.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class branch {
@@ -11,12 +13,15 @@ public class branch {
     public static final String columnBranchName = "BranchName";
     database databaseInstance = database.getInstance();
 
-    public void addBranch(HashMap<String, Object> BranchInfo) throws SQLException {
+    public void addBranch(ArrayList<HashMap<String, Object>> Branches) throws SQLException {
 
 //            database databaseInstance = database.getInstance();
-        databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
-                "values (" + BranchInfo.get("branchCode") + ",'" + BranchInfo.get("branchName") + "')");
-    }
+        for(int i = 0; i < Branches.size(); i++){
+            databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
+                    "values (" + Branches.get(i).get("branchCode") + ",'" + Branches.get(i).get("branchName") + "')");
+
+        }
+        }
 
     public void getBranch() throws SQLException {
 //        database databaseInstance = database.getInstance();
