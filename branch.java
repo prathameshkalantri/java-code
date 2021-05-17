@@ -8,20 +8,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class branch {
-    public static final String tableBranch = "Branch";
-    public static final String columnBranchCode = "BranchCode";
-    public static final String columnBranchName = "BranchName";
-    database databaseInstance = database.getInstance();
+    protected static final String tableBranch = "Branch";
+    protected static String columnBranchCode = "BranchCode";
+    protected static String columnBranchName = "BranchName";
+    protected static database databaseInstance = database.getInstance();
 
-    public void addBranch(ArrayList<HashMap<String, Object>> Branches) throws SQLException {
-
+    public static void addBranch(ArrayList<HashMap<String, Object>> Branches) throws SQLException {
+//        System.out.println(agent.columnAgentsCode);
 //            database databaseInstance = database.getInstance();
         for(int i = 0; i < Branches.size(); i++){
             databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
                     "values (" + Branches.get(i).get("branchCode") + ",'" + Branches.get(i).get("branchName") + "')");
 
         }
-        }
+    }
 
     public void getBranch() throws SQLException {
 //        database databaseInstance = database.getInstance();

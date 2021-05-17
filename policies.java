@@ -5,10 +5,10 @@ import com.company.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class policies {
-    public static String tablePolicy = "Policies";
-     public static String columnPolicyNo = "PolicyNo";
-    public static String columnAgentsCode = "AgentCode";
+public class policies extends agent{
+    protected static String tablePolicy = "Policies";
+     protected static String columnPolicyNo = "PolicyNo";
+//    public static String columnAgentsCode = "AgentCode";
     database databaseInstance = database.getInstance();
 
     public void addPolicy(int AgentCode, int PolicyNo) throws SQLException {     // polymorphism

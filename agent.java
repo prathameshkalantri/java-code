@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class agent extends branch {
-    private static String tableAgent = "Agents";
+    protected static String tableAgent = "Agents";
     //    public static final String  columnBranchCode = "BranchCode";
-    public static String columnAgentsCode = "AgentCode";
-    public static String columnAgentName = "AgentName";
-    public static String columnPolicies = "Policies";
-    public static String columnBranchCode = "BranchCode";
+    protected static String columnAgentsCode = "AgentCode";
+    protected static String columnAgentName = "AgentName";
+    protected static String columnPolicies = "Policies";
+//    protected static String columnBranchCode = "BranchCode";
 
     public void addAgent( int BranchCode, int agentCode, String agentName) throws SQLException {
         database databaseInstance1 = database.getInstance();
