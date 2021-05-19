@@ -13,13 +13,17 @@ public class branch {
     protected static String columnBranchName = "BranchName";
     protected static database databaseInstance = database.getInstance();
 
-    public static void addBranch(ArrayList<HashMap<String, Object>> Branches) throws SQLException {
+    public static void addBranch(ArrayList<HashMap<String, Object>> Branches) {
 //        System.out.println(agent.columnAgentsCode);
 //            database databaseInstance = database.getInstance();
-        for(int i = 0; i < Branches.size(); i++){
-            databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
-                    "values (" + Branches.get(i).get("branchCode") + ",'" + Branches.get(i).get("branchName") + "')");
+        try {
+            for (int i = 0; i < Branches.size(); i++) {
+                databaseInstance.getStatement().execute("insert into " + tableBranch + "(" + columnBranchCode + "," + columnBranchName + ") " +
+                        "values (" + Branches.get(i).get("branchCode") + ",'" + Branches.get(i).get("branchName") + "')");
 
+            }
+        }catch (SQLException e){
+//            System.out.println(e);
         }
     }
 
