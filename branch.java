@@ -57,4 +57,23 @@ public class branch {
         }
 
     }
+
+    public enum Day{
+        MONDAY,TUESDAY,WEDNESDAY,THURSDAY,
+        FRIDAY,SATURDAY,SUNDAY;
+    }
+    Day day;
+    public void isOpen(Day day){
+        this.day = day;
+        switch(day){
+            case MONDAY: case TUESDAY: case WEDNESDAY: case THURSDAY: case FRIDAY:
+                System.out.println("Branch is Open");
+                break;
+            case SATURDAY: case SUNDAY:
+                System.out.println("Branch is closed");
+                break;
+            default:
+                System.out.println("Wrong input");
+        }
+    }
 }
