@@ -33,7 +33,7 @@ public class branch {
         while (result.next()) {
             System.out.println(result.getInt(columnBranchCode) + " " +
                     result.getString(columnBranchName));
-//                    result.getInt(columnAgentsCode)+" "+
+//            //        result.getInt(columnAgentsCode)+" "+
 //                    result.getString(columnAgentName));
         }
     }
